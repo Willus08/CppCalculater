@@ -10,7 +10,7 @@ public class Calculator extends AppCompatActivity {
     String displayedNumber = "";
     boolean operationUsed = false;
     String currentOperation= "";
-    int savedNumber;
+    double savedNumber;
     TextView display;
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -31,10 +31,10 @@ public class Calculator extends AppCompatActivity {
      * which is packaged with this application.
      */
     public native String stringFromJNI();
-    public native int sumFromJNI(int a, int b);
-    public native int diffFromJNI(int a, int b);
-    public native int prodFromJNI(int a, int b);
-    public native int quoteFromJNI(int a, int b);
+    public native double sumFromJNI(double a, double b);
+    public native double diffFromJNI(double a, double b);
+    public native double prodFromJNI(double a, double b);
+    public native double quoteFromJNI(double a, double b);
 
     public void buttonPressed(View view) {
         switch (view.getId()){
@@ -73,14 +73,14 @@ public class Calculator extends AppCompatActivity {
                 break;
             case R.id.btnCalculatorAdd:
                 equalbuttonPressed();
-                savedNumber = Integer.parseInt(displayedNumber);
+                savedNumber = Double.parseDouble(displayedNumber);
                 displayedNumber ="";
                 operationUsed = true;
                 currentOperation = "Add";
                 break;
             case R.id.btnCalculatorDiff:
                 equalbuttonPressed();
-                savedNumber = Integer.parseInt(displayedNumber);
+                savedNumber = Double.parseDouble(displayedNumber);
                 displayedNumber ="";
                 operationUsed = true;
                 currentOperation = "Sub";
@@ -88,7 +88,7 @@ public class Calculator extends AppCompatActivity {
             case R.id.btnCalculatorMult:
                 equalbuttonPressed();
                 if(!displayedNumber.equals("")){
-                savedNumber = Integer.parseInt(displayedNumber);
+                savedNumber = Double.parseDouble(displayedNumber);
                 displayedNumber ="";
                 }
                 operationUsed = true;
@@ -97,7 +97,7 @@ public class Calculator extends AppCompatActivity {
             case R.id.btnCalculatorDiv:
                 equalbuttonPressed();
                 if(!displayedNumber.equals("")) {
-                    savedNumber = Integer.parseInt(displayedNumber);
+                    savedNumber = Double.parseDouble(displayedNumber);
                     displayedNumber = "";
                 }
                 operationUsed = true;
@@ -116,23 +116,23 @@ public class Calculator extends AppCompatActivity {
 
     private void equalbuttonPressed() {
         if (operationUsed) {
-            int temp = 0;
+            double temp = 0;
             if(!displayedNumber.equals("")){
                 switch (currentOperation) {
                     case "Add":
-                        temp = sumFromJNI(savedNumber, Integer.parseInt(displayedNumber));
+                        temp = sumFromJNI(savedNumber, Double.parseDouble(displayedNumber));
                         break;
                     case "Sub":
-                        temp = diffFromJNI(savedNumber, Integer.parseInt(displayedNumber));
+                        temp = diffFromJNI(savedNumber, Double.parseDouble(displayedNumber));
                         break;
                     case "Mult":
-                        temp = prodFromJNI(savedNumber, Integer.parseInt(displayedNumber));
+                        temp = prodFromJNI(savedNumber, Double.parseDouble(displayedNumber));
                         break;
                     case "Div":
-                        if (Integer.parseInt(displayedNumber) == 0) {
+                        if (Double.parseDouble(displayedNumber) == 0) {
                             displayedNumber = "error! division by zero";
                         } else {
-                            temp = quoteFromJNI(savedNumber, Integer.parseInt(displayedNumber));
+                            temp = quoteFromJNI(savedNumber, Double.parseDouble(displayedNumber));
                         }
                         break;
                 }
